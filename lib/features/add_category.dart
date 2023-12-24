@@ -51,11 +51,12 @@ class _AddCategoryState extends State<AddCategory> {
     setState(() {});
   }
 
+  Color color = Colors.black;
+
   @override
   Widget build(BuildContext context) {
     final strings = AppLocalizations.of(context)!;
     final colorss = Theme.of(context).colorScheme;
-    Color color = Theme.of(context).cardColor;
 
     return Scaffold(
       body: Padding(
