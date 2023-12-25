@@ -70,7 +70,7 @@ class _ProfileTabState extends State<ProfileTab> {
                   Components.fillButton(context,
                       color: colorss.onPrimary,
                       text:
-                          '${PendedTaskHelper.getAll().length} ${strings.pended}',
+                          '${pendedTaskHelper.getAll().length} ${strings.pended}',
                       onPressed: () async {
                     await Navigator.push(
                         context, TopRouting(const History(false)));
@@ -79,7 +79,7 @@ class _ProfileTabState extends State<ProfileTab> {
                   Components.fillButton(context,
                       color: colorss.onPrimary,
                       text:
-                          '${CompletedTaskHelper.getAll().length} ${strings.done}',
+                          '${completedTaskHelper.getAll().length} ${strings.done}',
                       onPressed: () async {
                     await Navigator.push(
                         context, TopRouting(const History(true)));

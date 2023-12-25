@@ -112,7 +112,8 @@ class CalenderTab extends StatelessWidget {
                       : '${results[index].time.year}-${results[index].time.month}-${results[index].time.day}';
                   final String time =
                       '$date ${strings.at} ${results[index].time.hour}:${results[index].time.minute}';
-                  final double percent = (StepsHelper.getAll()
+                  final double percent = (stepsHelper
+                              .getAll()
                               .where(
                                   (element) => element.id == results[index].id)
                               .toList()
@@ -121,14 +122,16 @@ class CalenderTab extends StatelessWidget {
                       ? 0
                       : results[index].done
                           ? 100
-                          : ((StepsHelper.getAll()
+                          : ((stepsHelper
+                                      .getAll()
                                       .where((element) =>
                                           element.id == results[index].id)
                                       .toList()
                                       .where((element) => element.done)
                                       .length) *
                                   100) /
-                              (StepsHelper.getAll()
+                              (stepsHelper
+                                  .getAll()
                                   .where((element) =>
                                       element.id == results[index].id)
                                   .length);

@@ -17,7 +17,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     on<SignInEvent>((event, emit) {
       if (event is FirstInEvent) {
         emit(SignInInitial());
-        UserDbHelper.add(event.user);
+        userDbHelper.add(event.user);
         emit(FirstInState());
       } else if (event is ChooseName) {
         emit(SignInInitial());

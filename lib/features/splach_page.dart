@@ -13,7 +13,7 @@ class SplachScreen extends StatelessWidget {
     await Future.delayed(const Duration(seconds: 3));
     // ignore: use_build_context_synchronously
     Navigator.of(context).pushReplacementNamed(
-        UserDbHelper.getAll().isEmpty ? Routes.login : Routes.homeLayout);
+        userDbHelper.getAll().isEmpty ? Routes.login : Routes.homeLayout);
   }
 
   @override
@@ -23,7 +23,7 @@ class SplachScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
           child: Container(
-        width: 200.w,
+        width: 201.w,
         height: 250.h,
         decoration: const BoxDecoration(
           image: DecorationImage(

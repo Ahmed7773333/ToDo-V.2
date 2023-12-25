@@ -19,15 +19,15 @@ class _ProgressTabState extends State<ProgressTab> {
 
   int touchedGroupIndex = -1;
   int totalTasks =
-      PendedTaskHelper.getAll().length + CompletedTaskHelper.getAll().length;
+      pendedTaskHelper.getAll().length + completedTaskHelper.getAll().length;
   @override
   void initState() {
     super.initState();
 
     final barGroup4 = makeGroupData(
         3,
-        PendedTaskHelper.getAll().length.toDouble(),
-        CompletedTaskHelper.getAll().length.toDouble());
+        pendedTaskHelper.getAll().length.toDouble(),
+        completedTaskHelper.getAll().length.toDouble());
 
     final items = [
       barGroup4,
@@ -210,11 +210,12 @@ class _ProgressTabState extends State<ProgressTab> {
   }
 
   List<PieChartSectionData> showingSections(touchedIndex) {
-    return CategoryDbHelper.getAll()
+    return categoryDbHelper
+        .getAll()
         .where((element) => element.count >= 3)
         .map((e) {
       final isTouched = e == touchedIndex;
-      final int maxValue = CompletedTaskHelper.getAll().length;
+      final int maxValue = completedTaskHelper.getAll().length;
       return PieChartSectionData(
         color: Color(e.color),
         value: e.count.toDouble(),

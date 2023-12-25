@@ -105,10 +105,11 @@ class _TaskDetailsState extends State<TaskDetails> {
                             if (!bloc.task.done) {
                               bool? isSure = await sure(context);
                               if (isSure ?? false) {
-                                CompletedTaskHelper.add(CompletedTask(
+                                completedTaskHelper.add(CompletedTask(
                                     time: bloc.task.time,
                                     name: bloc.task.title));
-                                CategoryDb category = CategoryDbHelper.getAll()
+                                CategoryDb category = categoryDbHelper
+                                    .getAll()
                                     .where((element) =>
                                         element.name.trim() ==
                                         bloc.task.categoryName.trim())
@@ -116,14 +117,14 @@ class _TaskDetailsState extends State<TaskDetails> {
                                     .first;
                                 dynamic catKey = category.key;
                                 category.count++;
-                                CategoryDbHelper.update(catKey, category);
+                                categoryDbHelper.update(catKey, category);
                                 if (!bloc.task.repeat) {
-                                  for (Stepss step in StepsHelper.getAll()) {
+                                  for (Stepss step in stepsHelper.getAll()) {
                                     if (step.id == bloc.task.id) {
-                                      StepsHelper.delete(step.key);
+                                      stepsHelper.delete(step.key);
                                     }
                                   }
-                                  TaskDbHelper.delete(bloc.task);
+                                  taskDbHelper.delete(bloc.task);
                                 } else if (bloc.task.repeat) {
                                   bloc.task.done = !bloc.task.done;
                                   bloc.add(UpdateTaskEvent(task: bloc.task));
@@ -149,7 +150,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                               IconButton.styleFrom(fixedSize: Size(24.w, 24.h)),
                           onPressed: () {
                             showEditTask(title, description, context, () {},
-                                CategoryDbHelper.getAll(), bloc);
+                                categoryDbHelper.getAll(), bloc);
                           },
                           icon: Icon(Icons.edit, size: 24.r),
                         ),
@@ -180,7 +181,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                         String name = await showStepName(nameController);
                         Stepss step =
                             Stepss(id: bloc.task.id, name: name, done: false);
-                        StepsHelper.add(step);
+                        stepsHelper.add(step);
                         bloc.add(GetTaskSteps(id: bloc.task.id));
                         debugPrint(bloc.task.id);
                         debugPrint(step.id);
@@ -216,11 +217,11 @@ class _TaskDetailsState extends State<TaskDetails> {
                                       style: IconButton.styleFrom(
                                           fixedSize: Size(16.w, 16.h)),
                                       onPressed: () {
-                                        Stepss step = StepsHelper.getById(
-                                            bloc.steps[index].key)!;
+                                        Stepss step = stepsHelper
+                                            .getById(bloc.steps[index].key)!;
 
                                         step.done = !step.done;
-                                        StepsHelper.update(
+                                        stepsHelper.update(
                                             bloc.steps[index].key, step);
                                         bloc.add(DoneSteps(step: step));
                                       },
@@ -241,8 +242,8 @@ class _TaskDetailsState extends State<TaskDetails> {
                                       style: IconButton.styleFrom(
                                           fixedSize: Size(16.w, 16.h)),
                                       onPressed: () {
-                                        StepsHelper.delete(
-                                            bloc.steps[index].key);
+                                        stepsHelper
+                                            .delete(bloc.steps[index].key);
                                         bloc.add(
                                             GetTaskSteps(id: bloc.task.id));
                                       },
@@ -269,17 +270,17 @@ class _TaskDetailsState extends State<TaskDetails> {
                             bool? isSure = await sure(context);
                             if (isSure ?? false) {
                               if (!bloc.task.done) {
-                                PendedTaskHelper.add(PendedTask(
+                                pendedTaskHelper.add(PendedTask(
                                     time: bloc.task.time,
                                     name: bloc.task.title));
                               }
 
-                              for (Stepss step in StepsHelper.getAll()) {
+                              for (Stepss step in stepsHelper.getAll()) {
                                 if (step.id == bloc.task.id) {
-                                  StepsHelper.delete(step.key);
+                                  stepsHelper.delete(step.key);
                                 }
                               }
-                              TaskDbHelper.delete(bloc.task);
+                              taskDbHelper.delete(bloc.task.key);
 
                               Navigator.pop(context);
                             }
@@ -303,9 +304,9 @@ class _TaskDetailsState extends State<TaskDetails> {
                           onTap: () async {
                             bool? isSure = await sure(context);
                             if (isSure ?? false) {
-                              for (Stepss step in StepsHelper.getAll()) {
+                              for (Stepss step in stepsHelper.getAll()) {
                                 if (step.id == bloc.task.id) {
-                                  StepsHelper.delete(step.key);
+                                  stepsHelper.delete(step.key);
                                 }
                               }
                               bloc.add(GetTaskSteps(id: bloc.task.id));
@@ -332,7 +333,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                     ElevatedButton(
                       onPressed: () {
                         showEditTask(title, description, context, () {},
-                            CategoryDbHelper.getAll(), bloc);
+                            categoryDbHelper.getAll(), bloc);
                       },
                       child: Center(
                         child: Text(strings.edit,

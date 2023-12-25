@@ -117,21 +117,29 @@ class _HomeLayoutState extends State<HomeLayout> {
                   icon: Image.asset(
                       color: Theme.of(context).cardColor, AppImages.home),
                   label: strings.home,
+                  activeIcon: Image.asset(
+                      color: Theme.of(context).cardColor, AppImages.home),
                 ),
                 BottomNavigationBarItem(
                   icon: Image.asset(
                       color: Theme.of(context).cardColor, AppImages.calendar),
                   label: strings.calender,
+                  activeIcon: Image.asset(
+                      color: Theme.of(context).cardColor, AppImages.calendar),
                 ),
                 BottomNavigationBarItem(
                   icon: Image.asset(
                       color: Theme.of(context).cardColor, AppImages.clock),
                   label: strings.progress,
+                  activeIcon: Image.asset(
+                      color: Theme.of(context).cardColor, AppImages.clock),
                 ),
                 BottomNavigationBarItem(
                   icon: Image.asset(
                       color: Theme.of(context).cardColor, AppImages.profile),
                   label: strings.profile,
+                  activeIcon: Image.asset(
+                      color: Theme.of(context).cardColor, AppImages.profile),
                 ),
               ],
             ),

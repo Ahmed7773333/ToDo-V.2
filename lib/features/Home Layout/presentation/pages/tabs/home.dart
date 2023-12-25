@@ -77,7 +77,8 @@ class HomeTab extends StatelessWidget {
                           : '${taskss[index].time.year}-${taskss[index].time.month}-${taskss[index].time.day}';
                       final String time =
                           '$date ${strings.at} ${taskss[index].time.hour}:${taskss[index].time.minute}';
-                      final double percent = (StepsHelper.getAll()
+                      final double percent = (stepsHelper
+                                  .getAll()
                                   .where((element) =>
                                       element.id == taskss[index].id)
                                   .toList()
@@ -86,14 +87,16 @@ class HomeTab extends StatelessWidget {
                           ? 0
                           : taskss[index].done
                               ? 100
-                              : ((StepsHelper.getAll()
+                              : ((stepsHelper
+                                          .getAll()
                                           .where((element) =>
                                               element.id == taskss[index].id)
                                           .toList()
                                           .where((element) => element.done)
                                           .length) *
                                       100) /
-                                  (StepsHelper.getAll()
+                                  (stepsHelper
+                                      .getAll()
                                       .where((element) =>
                                           element.id == taskss[index].id)
                                       .length);
@@ -129,13 +132,14 @@ class HomeTab extends StatelessWidget {
                 width: 200.w, // Adjust the height as needed
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  itemCount: CategoryDbHelper.getAll()
+                  itemCount: categoryDbHelper
+                      .getAll()
                       .length, // Replace with the actual number of categories
                   separatorBuilder: (context, index) => SizedBox(width: 8.w),
                   itemBuilder: (context, index) => InkWell(
                     onTap: () {
                       if (categoryNameFilter ==
-                          CategoryDbHelper.getAll()[index].name) {
+                          categoryDbHelper.getAll()[index].name) {
                         categoryNameFilter = 'None';
                         bloc.add(FilterCategoryEvent(
                             categoryDb: categoryNameFilter));
@@ -146,22 +150,22 @@ class HomeTab extends StatelessWidget {
                         showFilter(bloc, context);
                       } else {
                         categoryNameFilter =
-                            CategoryDbHelper.getAll()[index].name;
+                            categoryDbHelper.getAll()[index].name;
                         bloc.add(FilterCategoryEvent(
                             categoryDb: categoryNameFilter));
                         Navigator.pop(context);
                         bloc.add(FilterTasksEvent(
-                            categoryName: CategoryDbHelper.getAll()[index].name,
+                            categoryName: categoryDbHelper.getAll()[index].name,
                             priorty: bloc.priorityFilter));
                         showFilter(bloc, context);
                       }
                     },
                     child: Chip(
                         backgroundColor: categoryNameFilter ==
-                                CategoryDbHelper.getAll()[index].name
+                                categoryDbHelper.getAll()[index].name
                             ? Theme.of(context).cardColor
                             : Colors.transparent,
-                        label: Text(CategoryDbHelper.getAll()[index].name)),
+                        label: Text(categoryDbHelper.getAll()[index].name)),
                   ),
                   // Replace with your category logic
                 ),

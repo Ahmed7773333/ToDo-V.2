@@ -57,23 +57,24 @@ Widget taskItem(
                 if (!task.done) {
                   bool? isSure = await sure(context);
                   if (isSure ?? false) {
-                    CompletedTaskHelper.add(
-                        CompletedTask(time: task.time, name: task.title));
-                    CategoryDb category = CategoryDbHelper.getAll()
+                    completedTaskHelper
+                        .add(CompletedTask(time: task.time, name: task.title));
+                    CategoryDb category = categoryDbHelper
+                        .getAll()
                         .where((element) =>
                             element.name.trim() == task.categoryName.trim())
                         .toList()
                         .first;
                     dynamic catKey = category.key;
                     category.count++;
-                    CategoryDbHelper.update(catKey, category);
+                    categoryDbHelper.update(catKey, category);
                     if (task.repeat == false) {
-                      for (Stepss step in StepsHelper.getAll()) {
+                      for (Stepss step in stepsHelper.getAll()) {
                         if (step.id == task.id) {
-                          StepsHelper.delete(step.key);
+                          stepsHelper.delete(step.key);
                         }
                       }
-                      TaskDbHelper.delete(task);
+                      taskDbHelper.delete(task);
                     } else if (task.repeat) {
                       bloc.add(ChangeDoneEvent(
                         task: task,

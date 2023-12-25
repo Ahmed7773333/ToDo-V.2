@@ -23,13 +23,13 @@ class TaskDetailsBloc extends Bloc<TaskDetailsEvent, TaskDetailsState> {
     id: 'k',
   );
   List<Stepss> steps = [];
-  UserDb user = UserDbHelper.getById(0)!;
+  UserDb user = userDbHelper.getById(0)!;
   TaskDetailsBloc() : super(TaskDetailsInitial()) {
     on<TaskDetailsEvent>((event, emit) {
       if (event is UpdateTaskEvent) {
         emit(TaskDetailsInitial());
 
-        TaskDbHelper.update(event.task.key, event.task);
+        taskDbHelper.update(event.task.key, event.task);
         emit(UpdateTaskState());
       } else if (event is SetTaskEvent) {
         emit(TaskDetailsInitial());
@@ -41,7 +41,8 @@ class TaskDetailsBloc extends Bloc<TaskDetailsEvent, TaskDetailsState> {
         emit(SetRepeatState());
       } else if (event is GetTaskSteps) {
         emit(TaskDetailsInitial());
-        steps = StepsHelper.getAll()
+        steps = stepsHelper
+            .getAll()
             .where((element) => element.id == event.id)
             .toList();
         emit(GetTaskStepsState());

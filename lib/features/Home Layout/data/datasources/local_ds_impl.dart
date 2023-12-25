@@ -6,11 +6,11 @@ import 'package:todo/features/Home%20Layout/data/datasources/local_ds.dart';
 class LocalDsImpl implements LocalDs {
   @override
   void addCategory(CategoryDb category) {
-    CategoryDbHelper.add(category);
+    categoryDbHelper.add(category);
   }
 
   @override
   void addTask(TaskDb task) {
-    TaskDbHelper.add(task);
+    taskDbHelper.add(task);
   }
 }

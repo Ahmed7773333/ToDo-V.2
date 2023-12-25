@@ -64,27 +64,30 @@ class HomeLayoutBloc extends Bloc<HomeLayoutEvent, HomeLayoutState> {
         emit(
           state.copWith(
               status: ScreenStatus.getCategories,
-              categories: CategoryDbHelper.getAll()),
+              categories: categoryDbHelper.getAll()),
         );
       } else if (event is GetAllTasksEvent) {
         emit(state.copWith(status: ScreenStatus.homeLoading));
         emit(
           state.copWith(
-              status: ScreenStatus.getTasks, tasks: TaskDbHelper.getAll()),
+              status: ScreenStatus.getTasks, tasks: taskDbHelper.getAll()),
         );
       } else if (event is FilterTasksEvent) {
         emit(state.copWith(status: ScreenStatus.homeLoading));
         if (event.categoryName != 'None' && event.priorty != 0) {
-          filteredTask = TaskDbHelper.getAll()
+          filteredTask = taskDbHelper
+              .getAll()
               .where((element) => (element.categoryName == event.categoryName &&
                   element.priority == event.priorty))
               .toList();
         } else if (event.categoryName == 'None' && event.priorty != 0) {
-          filteredTask = TaskDbHelper.getAll()
+          filteredTask = taskDbHelper
+              .getAll()
               .where((element) => (element.priority == event.priorty))
               .toList();
         } else if (event.categoryName != 'None' && event.priorty == 0) {
-          filteredTask = TaskDbHelper.getAll()
+          filteredTask = taskDbHelper
+              .getAll()
               .where((element) => (element.categoryName == event.categoryName))
               .toList();
         } else {
@@ -101,7 +104,7 @@ class HomeLayoutBloc extends Bloc<HomeLayoutEvent, HomeLayoutState> {
         emit(
           state.copWith(
               status: ScreenStatus.taskAtDay,
-              tasksAtDay: TaskDbHelper.getAll().where((task) {
+              tasksAtDay: taskDbHelper.getAll().where((task) {
                 return task.time.year == filterDate.year &&
                     task.time.month == filterDate.month &&
                     task.time.day == filterDate.day;
@@ -113,7 +116,8 @@ class HomeLayoutBloc extends Bloc<HomeLayoutEvent, HomeLayoutState> {
         emit(
           state.copWith(
               status: ScreenStatus.getCompletedTasks,
-              completedTasks: TaskDbHelper.getAll()
+              completedTasks: taskDbHelper
+                  .getAll()
                   .where((element) => element.done)
                   .toList()),
         );
@@ -122,7 +126,7 @@ class HomeLayoutBloc extends Bloc<HomeLayoutEvent, HomeLayoutState> {
 
         emit(state.copWith(
           status: ScreenStatus.getUser,
-          user: UserDbHelper.getById(0),
+          user: userDbHelper.getById(0),
         ));
       } else if (event is ChangePageEvent) {
         // currentIndex = event.index;
@@ -132,12 +136,12 @@ class HomeLayoutBloc extends Bloc<HomeLayoutEvent, HomeLayoutState> {
         // currentIndex = event.index;
 
         event.task.done = !event.task.done;
-        TaskDbHelper.update(event.task.key, event.task);
+        taskDbHelper.update(event.task.key, event.task);
         emit(state.copWith(status: ScreenStatus.changeDone));
       } else if (event is UpdateUserEvent) {
         emit(state.copWith(status: ScreenStatus.init));
 
-        UserDbHelper.update(event.user.key, event.user);
+        userDbHelper.update(event.user.key, event.user);
         emit(state.copWith(status: ScreenStatus.updateUser));
       } else if (event is FilterpreiortyEvent) {
         emit(state.copWith(status: ScreenStatus.homeLoading));

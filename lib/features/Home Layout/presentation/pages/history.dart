@@ -18,8 +18,8 @@ class _HistoryState extends State<History> {
   @override
   Widget build(BuildContext context) {
     final List<dynamic> ls = widget.isCompleted
-        ? CompletedTaskHelper.getAll()
-        : PendedTaskHelper.getAll();
+        ? completedTaskHelper.getAll()
+        : pendedTaskHelper.getAll();
     Map<String, int> counter = {};
     List<String> lss = [];
     for (var ele in ls) {
@@ -51,9 +51,9 @@ class _HistoryState extends State<History> {
             style: IconButton.styleFrom(fixedSize: Size(28.w, 28.h)),
             onPressed: () {
               if (widget.isCompleted) {
-                CompletedTaskHelper.cler();
+                completedTaskHelper.clear();
               } else {
-                PendedTaskHelper.cler();
+                pendedTaskHelper.clear();
               }
 
               setState(() {});
@@ -84,22 +84,22 @@ class _HistoryState extends State<History> {
                       List keysToDelete = [];
 
                       if (widget.isCompleted) {
-                        CompletedTaskHelper.getAll().forEach((element) {
+                        completedTaskHelper.getAll().forEach((element) {
                           if (element.name == name) {
                             keysToDelete.add(element.key);
                           }
                         });
 
-                        CompletedTaskHelper.delete(keysToDelete);
+                        completedTaskHelper.deleteAll(keysToDelete);
                       }
 
-                      PendedTaskHelper.getAll().forEach((element) {
+                      pendedTaskHelper.getAll().forEach((element) {
                         if (element.name == name) {
                           keysToDelete.add(element.key);
                         }
                       });
 
-                      PendedTaskHelper.delete(keysToDelete);
+                      pendedTaskHelper.deleteAll(keysToDelete);
 
                       setState(() {});
                     },

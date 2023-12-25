@@ -8,218 +8,58 @@ import 'package:todo/core/cache/task_db.dart';
 import '../category_db.dart';
 import '../user_db.dart';
 
-class TaskDbHelper {
-  static const String boxName = 'TaskDbBox';
+class DbHelper<T> {
+  final String boxName;
 
-  static add(TaskDb category) {
-    Box<TaskDb> categoryBox = Hive.box(boxName);
-    categoryBox.add(category);
+  DbHelper(this.boxName);
+
+  void add(T item) {
+    Box<T> box = Hive.box(boxName);
+    box.add(item);
   }
 
-  static update(dynamic id, TaskDb category) {
-    Box<TaskDb> categoryBox = Hive.box(boxName);
-    categoryBox.put(id, category);
+  void update(dynamic id, T item) {
+    Box<T> box = Hive.box(boxName);
+    box.put(id, item);
   }
 
-  static List<TaskDb> getAll() {
-    Box<TaskDb> categoryBox = Hive.box(boxName);
-    return categoryBox.values.toList().cast<TaskDb>();
+  List<T> getAll() {
+    Box<T> box = Hive.box(boxName);
+    return box.values.toList().cast<T>();
   }
 
-  static TaskDb? getById(int id) {
-    Box<TaskDb> categoryBox = Hive.box(boxName);
-    return categoryBox.getAt(id);
+  T? getById(int id) {
+    Box<T> box = Hive.box(boxName);
+    return box.get(id);
   }
 
-  static delete(TaskDb element) {
-    Box<TaskDb> categoryBox = Hive.box(boxName);
-    categoryBox.delete(element.key);
+  void delete(dynamic id) {
+    Box<T> box = Hive.box(boxName);
+    box.delete(id);
   }
 
-  static cler() {
-    Box<TaskDb> categoryBox = Hive.box(boxName);
-    categoryBox.clear();
-  }
-}
-
-class CategoryDbHelper {
-  static const String boxName = 'CategoryDbBox';
-
-  static add(CategoryDb category) {
-    Box<CategoryDb> categoryBox = Hive.box(boxName);
-    categoryBox.add(category);
+  void deleteAll(List<dynamic> ids) {
+    Box<T> box = Hive.box(boxName);
+    box.deleteAll(ids);
   }
 
-  static List<CategoryDb> getAll() {
-    Box<CategoryDb> categoryBox = Hive.box(boxName);
-    return categoryBox.values.toList().cast<CategoryDb>();
+  void clear() {
+    Box<T> box = Hive.box(boxName);
+    box.clear();
   }
 
-  static update(dynamic id, CategoryDb category) {
-    Box<CategoryDb> categoryBox = Hive.box(boxName);
-    categoryBox.put(id, category);
-  }
-
-  static CategoryDb? getById(int id) {
-    Box<CategoryDb> categoryBox = Hive.box(boxName);
-    return categoryBox.getAt(id);
-  }
-
-  static delete(int id) {
-    Box<CategoryDb> categoryBox = Hive.box(boxName);
-    categoryBox.deleteAt(id);
-  }
-
-  static cler() {
-    Box<CategoryDb> categoryBox = Hive.box(boxName);
-    categoryBox.clear();
+  void deleteFromDisk() {
+    Box<T> box = Hive.box(boxName);
+    box.deleteFromDisk();
   }
 }
 
-class UserDbHelper {
-  static const String boxName = 'UserDbHelper';
-
-  static add(UserDb category) {
-    Box<UserDb> categoryBox = Hive.box(boxName);
-    categoryBox.add(category);
-  }
-
-  static List<UserDb> getAll() {
-    Box<UserDb> categoryBox = Hive.box(boxName);
-    return categoryBox.values.toList().cast<UserDb>();
-  }
-
-  static UserDb? getById(int id) {
-    Box<UserDb> categoryBox = Hive.box(boxName);
-    return categoryBox.getAt(id);
-  }
-
-  static delete(int id) {
-    Box<UserDb> categoryBox = Hive.box(boxName);
-    categoryBox.deleteAt(id);
-  }
-
-  static cler() {
-    Box<UserDb> categoryBox = Hive.box(boxName);
-    categoryBox.clear();
-  }
-
-  static update(dynamic id, UserDb category) {
-    Box<UserDb> categoryBox = Hive.box(boxName);
-    categoryBox.put(id, category);
-  }
-}
-
-clearFromDisk() {
-  Box<UserDb> categoryBox = Hive.box(UserDbHelper.boxName);
-  Box<CategoryDb> yBox = Hive.box(CategoryDbHelper.boxName);
-  Box<TaskDb> task = Hive.box(TaskDbHelper.boxName);
-  categoryBox.deleteFromDisk();
-  yBox.deleteFromDisk();
-  task.deleteFromDisk();
-}
-
-class PendedTaskHelper {
-  static const String boxName = 'PendedTaskHelper';
-
-  static add(PendedTask category) {
-    Box<PendedTask> categoryBox = Hive.box(boxName);
-    categoryBox.add(category);
-  }
-
-  static update(dynamic id, PendedTask category) {
-    Box<PendedTask> categoryBox = Hive.box(boxName);
-    categoryBox.put(id, category);
-  }
-
-  static List<PendedTask> getAll() {
-    Box<PendedTask> categoryBox = Hive.box(boxName);
-    return categoryBox.values.toList().cast<PendedTask>();
-  }
-
-  static PendedTask? getById(int id) {
-    Box<PendedTask> categoryBox = Hive.box(boxName);
-    return categoryBox.getAt(id);
-  }
-
-  static delete(List id) {
-    Box<PendedTask> categoryBox = Hive.box(boxName);
-    categoryBox.deleteAll(id);
-  }
-
-  static cler() {
-    Box<PendedTask> categoryBox = Hive.box(boxName);
-    categoryBox.clear();
-  }
-}
-
-class CompletedTaskHelper {
-  static const String boxName = 'CompletedTaskHelper';
-
-  static add(CompletedTask category) {
-    Box<CompletedTask> categoryBox = Hive.box(boxName);
-    categoryBox.add(category);
-  }
-
-  static update(dynamic id, CompletedTask category) {
-    Box<CompletedTask> categoryBox = Hive.box(boxName);
-    categoryBox.put(id, category);
-  }
-
-  static List<CompletedTask> getAll() {
-    Box<CompletedTask> categoryBox = Hive.box(boxName);
-    return categoryBox.values.toList().cast<CompletedTask>();
-  }
-
-  static CompletedTask? getById(int id) {
-    Box<CompletedTask> categoryBox = Hive.box(boxName);
-    return categoryBox.getAt(id);
-  }
-
-  static delete(List id) {
-    Box<CompletedTask> categoryBox = Hive.box(boxName);
-    categoryBox.deleteAll(id);
-  }
-
-  static cler() {
-    Box<CompletedTask> categoryBox = Hive.box(boxName);
-    categoryBox.clear();
-  }
-}
-
-class StepsHelper {
-  static const String boxName = 'StepsHelper';
-
-  static add(Stepss category) {
-    Box<Stepss> categoryBox = Hive.box(boxName);
-    categoryBox.add(category);
-  }
-
-  static update(dynamic id, Stepss category) {
-    Box<Stepss> categoryBox = Hive.box(boxName);
-    categoryBox.put(id, category);
-  }
-
-  static List<Stepss> getAll() {
-    Box<Stepss> categoryBox = Hive.box(boxName);
-    return categoryBox.values.toList().cast<Stepss>();
-  }
-
-  static Stepss? getById(id) {
-    Box<Stepss> categoryBox = Hive.box(boxName);
-    return categoryBox.get(id);
-  }
-
-  static delete(dynamic id) {
-    Box<Stepss> categoryBox = Hive.box(boxName);
-    categoryBox.delete(id);
-  }
-
-  static cler() {
-    Box<Stepss> categoryBox = Hive.box(boxName);
-    categoryBox.clear();
-  }
-}
+var taskDbHelper = DbHelper<TaskDb>('TaskDbBox');
+var categoryDbHelper = DbHelper<CategoryDb>('CategoryDbBox');
+var userDbHelper = DbHelper<UserDb>('UserDbHelper');
+var pendedTaskHelper = DbHelper<PendedTask>('PendedTaskHelper');
+var completedTaskHelper = DbHelper<CompletedTask>('CompletedTaskHelper');
+var stepsHelper = DbHelper<Stepss>('StepsHelper');
 
 registsHive() async {
   await Hive.initFlutter();
@@ -227,45 +67,45 @@ registsHive() async {
   Directory directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
   Hive.registerAdapter(CategoryDbAdapter());
-  await Hive.openBox<CategoryDb>(CategoryDbHelper.boxName);
+  await Hive.openBox<CategoryDb>(categoryDbHelper.boxName);
   Hive.registerAdapter(TaskDbAdapter());
-  await Hive.openBox<TaskDb>(TaskDbHelper.boxName);
+  await Hive.openBox<TaskDb>(taskDbHelper.boxName);
   Hive.registerAdapter(PendedTaskAdapter());
-  await Hive.openBox<PendedTask>(PendedTaskHelper.boxName);
+  await Hive.openBox<PendedTask>(pendedTaskHelper.boxName);
   Hive.registerAdapter(CompletedTaskAdapter());
-  await Hive.openBox<CompletedTask>(CompletedTaskHelper.boxName);
+  await Hive.openBox<CompletedTask>(completedTaskHelper.boxName);
   Hive.registerAdapter(UserDbAdapter());
-  await Hive.openBox<UserDb>(UserDbHelper.boxName);
+  await Hive.openBox<UserDb>(userDbHelper.boxName);
   Hive.registerAdapter(StepAdapter());
-  await Hive.openBox<Stepss>(StepsHelper.boxName);
+  await Hive.openBox<Stepss>(stepsHelper.boxName);
 }
 
 checkEveryDay() {
-  for (TaskDb task in TaskDbHelper.getAll()) {
+  for (TaskDb task in taskDbHelper.getAll()) {
     if (task.time
         .isBefore(DateTime.now().copyWith(hour: 0, minute: 0, second: 0))) {
       if (task.repeat) {
         if (!task.done) {
-          PendedTaskHelper.add(PendedTask(time: task.time, name: task.title));
+          pendedTaskHelper.add(PendedTask(time: task.time, name: task.title));
         }
         task.done = false;
         task.time = DateTime.now()
             .copyWith(hour: task.time.hour, minute: task.time.minute);
-        for (Stepss step in StepsHelper.getAll()) {
+        for (Stepss step in stepsHelper.getAll()) {
           if (step.id == task.id) {
             step.done = false;
-            StepsHelper.update(step.key, step);
+            stepsHelper.update(step.key, step);
           }
         }
-        TaskDbHelper.update(task.key, task);
+        taskDbHelper.update(task.key, task);
       } else {
-        PendedTaskHelper.add(PendedTask(time: task.time, name: task.title));
-        for (Stepss step in StepsHelper.getAll()) {
+        pendedTaskHelper.add(PendedTask(time: task.time, name: task.title));
+        for (Stepss step in stepsHelper.getAll()) {
           if (step.id == task.id) {
-            StepsHelper.delete(step.key);
+            stepsHelper.delete(step.key);
           }
         }
-        TaskDbHelper.delete(task.key);
+        taskDbHelper.delete(task.key);
       }
     }
   }
