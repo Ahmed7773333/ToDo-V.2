@@ -104,12 +104,14 @@ class _HomeLayoutState extends State<HomeLayout> {
                     bloc),
               ],
               onPageChanged: (index) {
+                bloc.currentIndex = index;
                 bloc.add(ChangePageEvent(index: index));
               },
             ),
             bottomNavigationBar: BottomNavigationBar(
-              currentIndex: 0,
+              currentIndex: bloc.currentIndex,
               onTap: (index) {
+                bloc.currentIndex = index;
                 bloc.pageController.jumpToPage(index);
               },
               items: [
@@ -117,29 +119,29 @@ class _HomeLayoutState extends State<HomeLayout> {
                   icon: Image.asset(
                       color: Theme.of(context).cardColor, AppImages.home),
                   label: strings.home,
-                  activeIcon: Image.asset(
-                      color: Theme.of(context).cardColor, AppImages.home),
+                  activeIcon:
+                      Image.asset(color: colors.secondary, AppImages.home),
                 ),
                 BottomNavigationBarItem(
                   icon: Image.asset(
                       color: Theme.of(context).cardColor, AppImages.calendar),
                   label: strings.calender,
-                  activeIcon: Image.asset(
-                      color: Theme.of(context).cardColor, AppImages.calendar),
+                  activeIcon:
+                      Image.asset(color: colors.secondary, AppImages.calendar),
                 ),
                 BottomNavigationBarItem(
                   icon: Image.asset(
                       color: Theme.of(context).cardColor, AppImages.clock),
                   label: strings.progress,
-                  activeIcon: Image.asset(
-                      color: Theme.of(context).cardColor, AppImages.clock),
+                  activeIcon:
+                      Image.asset(color: colors.secondary, AppImages.clock),
                 ),
                 BottomNavigationBarItem(
                   icon: Image.asset(
                       color: Theme.of(context).cardColor, AppImages.profile),
                   label: strings.profile,
-                  activeIcon: Image.asset(
-                      color: Theme.of(context).cardColor, AppImages.profile),
+                  activeIcon:
+                      Image.asset(color: colors.secondary, AppImages.profile),
                 ),
               ],
             ),

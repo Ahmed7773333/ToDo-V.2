@@ -54,27 +54,35 @@ Widget taskItem(
               style: IconButton.styleFrom(fixedSize: Size(16.w, 16.h)),
               onPressed: () async {
                 DateTime t = task.time.copyWith(hour: 0, minute: 0);
+                dynamic keye = task.key;
                 if (!task.done) {
                   bool? isSure = await sure(context);
                   if (isSure ?? false) {
                     completedTaskHelper
                         .add(CompletedTask(time: task.time, name: task.title));
-                    CategoryDb category = categoryDbHelper
+                    if (categoryDbHelper
                         .getAll()
                         .where((element) =>
                             element.name.trim() == task.categoryName.trim())
                         .toList()
-                        .first;
-                    dynamic catKey = category.key;
-                    category.count++;
-                    categoryDbHelper.update(catKey, category);
-                    if (task.repeat == false) {
+                        .isNotEmpty) {
+                      CategoryDb category = categoryDbHelper
+                          .getAll()
+                          .where((element) =>
+                              element.name.trim() == task.categoryName.trim())
+                          .toList()
+                          .first;
+                      dynamic catKey = category.key;
+                      category.count++;
+                      categoryDbHelper.update(catKey, category);
+                    }
+                    if (!task.repeat) {
                       for (Stepss step in stepsHelper.getAll()) {
                         if (step.id == task.id) {
                           stepsHelper.delete(step.key);
                         }
                       }
-                      taskDbHelper.delete(task);
+                      taskDbHelper.delete(keye);
                     } else if (task.repeat) {
                       bloc.add(ChangeDoneEvent(
                         task: task,

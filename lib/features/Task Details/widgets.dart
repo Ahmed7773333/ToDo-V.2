@@ -419,16 +419,24 @@ Future<bool?> sure(BuildContext context) async {
         backgroundColor: colorss.onPrimary,
         surfaceTintColor: colorss.onPrimary,
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Components.fillButton(context,
-                color: Colors.transparent, text: strings.ignore, onPressed: () {
-              Navigator.pop(context);
-            }),
-            Components.fillButton(context,
-                color: Colors.transparent, text: strings.sure, onPressed: () {
-              completer.complete(true);
-              Navigator.pop(context);
-            }),
+            SizedBox(
+              height: 50.h,
+              child: Components.fillButton(context,
+                  color: Colors.transparent,
+                  text: strings.ignore, onPressed: () {
+                Navigator.pop(context);
+              }),
+            ),
+            SizedBox(
+              height: 50.h,
+              child: Components.fillButton(context,
+                  color: Colors.transparent, text: strings.sure, onPressed: () {
+                completer.complete(true);
+                Navigator.pop(context);
+              }),
+            ),
           ],
         ),
       );

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,8 +20,8 @@ class _ProgressTabState extends State<ProgressTab> {
   late List<BarChartGroupData> showingBarGroups;
 
   int touchedGroupIndex = -1;
-  int totalTasks =
-      pendedTaskHelper.getAll().length + completedTaskHelper.getAll().length;
+  int totalTasks = max(
+      pendedTaskHelper.getAll().length, completedTaskHelper.getAll().length);
   @override
   void initState() {
     super.initState();
@@ -58,7 +60,7 @@ class _ProgressTabState extends State<ProgressTab> {
                 width: 306.w,
                 child: BarChart(
                   BarChartData(
-                    maxY: totalTasks.toDouble() + 20,
+                    maxY: totalTasks.toDouble() + 10,
                     barTouchData: BarTouchData(
                       touchTooltipData: BarTouchTooltipData(
                         tooltipBgColor: Colors.grey,
@@ -144,7 +146,7 @@ class _ProgressTabState extends State<ProgressTab> {
                   Container(height: 25.h, width: 25.w, color: Colors.red),
                   SizedBox(width: 5.w),
                   Text(
-                    ': ${strings.pendedtasks}',
+                    ': ${strings.pendedtasks} (${pendedTaskHelper.getAll().length})',
                     style: Theme.of(context).textTheme.bodyLarge,
                   )
                 ],
@@ -154,7 +156,7 @@ class _ProgressTabState extends State<ProgressTab> {
                   Container(height: 25.h, width: 25.w, color: Colors.blue),
                   SizedBox(width: 5.w),
                   Text(
-                    ': ${strings.completedtasks}',
+                    ': ${strings.completedtasks} (${completedTaskHelper.getAll().length})',
                     style: Theme.of(context).textTheme.bodyLarge,
                   )
                 ],
@@ -164,7 +166,7 @@ class _ProgressTabState extends State<ProgressTab> {
                   Container(height: 25.h, width: 25.w, color: Colors.purple),
                   SizedBox(width: 5.w),
                   Text(
-                    ': ${strings.average}',
+                    ': ${strings.average} (${((pendedTaskHelper.getAll().length + completedTaskHelper.getAll().length) / 2).toStringAsFixed(1)})',
                     style: Theme.of(context).textTheme.bodyLarge,
                   )
                 ],
@@ -239,67 +241,6 @@ class _ProgressTabState extends State<ProgressTab> {
             : BorderSide(color: Colors.white.withOpacity(0)),
       );
     }).toList();
-
-    //   List.generate(
-    //     CategoryDbHelper.getAll().where((element) => element.count >= 3).length,
-    //     (i) {
-    //       final isTouched = i == touchedIndex;
-    //       const color0 = Colors.blue;
-    //       const color1 = Colors.yellow;
-    //       const color2 = Colors.pink;
-    //       const color3 = Colors.green;
-
-    //       switch (i) {
-    //         case 0:
-    //           return PieChartSectionData(
-    //             color: color0,
-    //             value: 25,
-    //             title: '',
-    //             radius: 80,
-    //             titlePositionPercentageOffset: 0.55,
-    //             borderSide: isTouched
-    //                 ? const BorderSide(color: Colors.white, width: 6)
-    //                 : BorderSide(color: Colors.white.withOpacity(0)),
-    //           );
-    //         case 1:
-    //           return PieChartSectionData(
-    //             color: color1,
-    //             value: 25,
-    //             title: '',
-    //             radius: 65,
-    //             titlePositionPercentageOffset: 0.55,
-    //             borderSide: isTouched
-    //                 ? const BorderSide(color: Colors.white, width: 6)
-    //                 : BorderSide(color: Colors.white.withOpacity(0)),
-    //           );
-    //         case 2:
-    //           return PieChartSectionData(
-    //             color: color2,
-    //             value: 25,
-    //             title: '',
-    //             radius: 60,
-    //             titlePositionPercentageOffset: 0.6,
-    //             borderSide: isTouched
-    //                 ? const BorderSide(color: Colors.white, width: 6)
-    //                 : BorderSide(color: Colors.white.withOpacity(0)),
-    //           );
-    //         case 3:
-    //           return PieChartSectionData(
-    //             color: color3,
-    //             value: 25,
-    //             title: '',
-    //             radius: 70,
-    //             titlePositionPercentageOffset: 0.55,
-    //             borderSide: isTouched
-    //                 ? const BorderSide(color: Colors.white, width: 6)
-    //                 : BorderSide(color: Colors.white.withOpacity(0)),
-    //           );
-    //         default:
-    //           throw Error();
-    //       }
-    //     },
-    //   );
-    // }
   }
 
   Widget leftTitles(double value, TitleMeta meta) {
@@ -309,9 +250,9 @@ class _ProgressTabState extends State<ProgressTab> {
       fontSize: 14,
     );
 
-    if (value % 5 == 0) {
-      int index = (value ~/ 5).toInt();
-      String text = (index * (totalTasks ~/ 5)).toString();
+    if (value % (totalTasks ~/ 6) == 0) {
+      int index = (value ~/ (totalTasks ~/ 6)).toInt();
+      String text = (index * (totalTasks ~/ 6)).toString();
       return SideTitleWidget(
         axisSide: meta.axisSide,
         space: 0,
@@ -357,51 +298,4 @@ class _ProgressTabState extends State<ProgressTab> {
       ],
     );
   }
-
-  // Widget makeTransactionsIcon() {
-  //   const width = 4.5;
-  //   const space = 3.5;
-  //   return Row(
-  //     mainAxisSize: MainAxisSize.min,
-  //     children: <Widget>[
-  //       Container(
-  //         width: width,
-  //         height: 10,
-  //         color: Colors.white.withOpacity(0.4),
-  //       ),
-  //       const SizedBox(
-  //         width: space,
-  //       ),
-  //       Container(
-  //         width: width,
-  //         height: 28,
-  //         color: Colors.white.withOpacity(0.8),
-  //       ),
-  //       const SizedBox(
-  //         width: space,
-  //       ),
-  //       Container(
-  //         width: width,
-  //         height: 42,
-  //         color: Colors.white.withOpacity(1),
-  //       ),
-  //       const SizedBox(
-  //         width: space,
-  //       ),
-  //       Container(
-  //         width: width,
-  //         height: 28,
-  //         color: Colors.white.withOpacity(0.8),
-  //       ),
-  //       const SizedBox(
-  //         width: space,
-  //       ),
-  //       Container(
-  //         width: width,
-  //         height: 10,
-  //         color: Colors.white.withOpacity(0.4),
-  //       ),
-  //     ],
-  //   );
-  // }
 }

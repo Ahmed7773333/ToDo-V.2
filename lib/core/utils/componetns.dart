@@ -2,6 +2,8 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../features/Home Layout/presentation/bloc/home_layout_bloc.dart';
+
 class Components {
   static Widget customTextField(
     context, {
@@ -66,7 +68,10 @@ class Components {
     );
   }
 
-  static Widget openContainers({Widget? closedWidget, Widget? openedWidget}) {
+  static Widget openContainers(
+      {Widget? closedWidget,
+      Widget? openedWidget,
+      required HomeLayoutBloc bloc}) {
     return OpenContainer(
       closedElevation: 0,
       openElevation: 0,
@@ -74,6 +79,15 @@ class Components {
       closedColor: Colors.transparent,
       openColor: Colors.transparent,
       closedBuilder: (BuildContext context, void Function() action) {
+        bloc.add(GetAllTasksEvent());
+        bloc.add(GetAllTasksAtDay(
+            time: DateTime.now().copyWith(
+                hour: 0,
+                minute: 0,
+                second: 0,
+                millisecond: 0,
+                microsecond: 0)));
+
         return closedWidget!;
       },
       openBuilder:
@@ -89,7 +103,6 @@ class Components {
       onPressed: onPressed,
       style: FilledButton.styleFrom(
         backgroundColor: color,
-        fixedSize: Size(110.w, 48.h),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.r)),
       ),
       child: Center(

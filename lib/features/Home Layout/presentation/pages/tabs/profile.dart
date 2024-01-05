@@ -173,7 +173,7 @@ class _ProfileTabState extends State<ProfileTab> {
             ),
             ListTile(
               leading: const Icon(Icons.camera_alt),
-              title: Text(strings.taskaphoto),
+              title: Text(strings.takeaphoto),
               onTap: () async {
                 Navigator.pop(context);
                 XFile? pickedFile =

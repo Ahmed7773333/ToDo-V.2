@@ -84,16 +84,22 @@ class CalenderTab extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Components.fillButton(context,
-                    color: Colors.transparent,
-                    text: strings.today, onPressed: () {
-                  bloc.add(GetAllTasksAtDay(time: DateTime.now()));
-                }),
-                Components.fillButton(context,
-                    color: colors.secondary,
-                    text: strings.complete, onPressed: () {
-                  bloc.add(GetCompletedTask());
-                }),
+                SizedBox(
+                  height: 50.h,
+                  child: Components.fillButton(context,
+                      color: Colors.transparent,
+                      text: strings.today, onPressed: () {
+                    bloc.add(GetAllTasksAtDay(time: DateTime.now()));
+                  }),
+                ),
+                SizedBox(
+                  height: 50.h,
+                  child: Components.fillButton(context,
+                      color: colors.secondary,
+                      text: strings.complete, onPressed: () {
+                    bloc.add(GetCompletedTask());
+                  }),
+                ),
               ],
             ),
           ),

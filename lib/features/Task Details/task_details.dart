@@ -108,23 +108,31 @@ class _TaskDetailsState extends State<TaskDetails> {
                                 completedTaskHelper.add(CompletedTask(
                                     time: bloc.task.time,
                                     name: bloc.task.title));
-                                CategoryDb category = categoryDbHelper
+                                if (categoryDbHelper
                                     .getAll()
                                     .where((element) =>
                                         element.name.trim() ==
                                         bloc.task.categoryName.trim())
                                     .toList()
-                                    .first;
-                                dynamic catKey = category.key;
-                                category.count++;
-                                categoryDbHelper.update(catKey, category);
+                                    .isNotEmpty) {
+                                  CategoryDb category = categoryDbHelper
+                                      .getAll()
+                                      .where((element) =>
+                                          element.name.trim() ==
+                                          bloc.task.categoryName.trim())
+                                      .toList()
+                                      .first;
+                                  dynamic catKey = category.key;
+                                  category.count++;
+                                  categoryDbHelper.update(catKey, category);
+                                }
                                 if (!bloc.task.repeat) {
                                   for (Stepss step in stepsHelper.getAll()) {
                                     if (step.id == bloc.task.id) {
                                       stepsHelper.delete(step.key);
                                     }
                                   }
-                                  taskDbHelper.delete(bloc.task);
+                                  taskDbHelper.delete(bloc.task.key);
                                 } else if (bloc.task.repeat) {
                                   bloc.task.done = !bloc.task.done;
                                   bloc.add(UpdateTaskEvent(task: bloc.task));

@@ -33,7 +33,7 @@ class _SingInState extends State<SingIn> {
         listener: (context, state) {},
         builder: (context, state) {
           final bloc = SignInBloc.get(context);
-    final colorss = Theme.of(context).colorScheme;
+          final colorss = Theme.of(context).colorScheme;
 
           return Scaffold(
             body: Center(
@@ -146,7 +146,7 @@ class _SingInState extends State<SingIn> {
             ),
             ListTile(
               leading: const Icon(Icons.camera_alt),
-              title: Text(strings.taskaphoto),
+              title: Text(strings.takeaphoto),
               onTap: () async {
                 Navigator.pop(context);
                 XFile? pickedFile =

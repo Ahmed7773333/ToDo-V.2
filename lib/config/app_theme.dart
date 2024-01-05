@@ -135,26 +135,26 @@ class AppTheme {
         ),
       ),
     ),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       backgroundColor: AppColors.onPrimary,
       showUnselectedLabels: true,
       showSelectedLabels: true,
       selectedLabelStyle: TextStyle(
-        color: Colors.white.withOpacity(0.8700000047683716),
+        color: AppColors.secondary,
         fontSize: 16,
         fontFamily: 'Lato',
         fontWeight: FontWeight.w400,
         letterSpacing: -0.32,
       ),
-      unselectedLabelStyle: const TextStyle(
+      unselectedLabelStyle: TextStyle(
         color: AppColors.lightonPrimary,
         fontSize: 16,
         fontFamily: 'Lato',
         fontWeight: FontWeight.w400,
         letterSpacing: -0.32,
       ),
-      selectedItemColor: Colors.white,
+      selectedItemColor: AppColors.secondary,
       unselectedItemColor: AppColors.lightonPrimary,
     ),
     cardColor: Colors.white,
@@ -297,7 +297,7 @@ class AppTheme {
       showUnselectedLabels: true,
       showSelectedLabels: true,
       selectedLabelStyle: const TextStyle(
-        color: AppColors.onPrimary,
+        color: AppColors.lightsecondry,
         fontSize: 16,
         fontFamily: 'Lato',
         fontWeight: FontWeight.w400,
@@ -310,7 +310,7 @@ class AppTheme {
         fontWeight: FontWeight.w400,
         letterSpacing: -0.32,
       ).copyWith(color: AppColors.onPrimary),
-      selectedItemColor: Colors.black,
+      selectedItemColor: AppColors.lightsecondry,
       unselectedItemColor: AppColors.onPrimary,
     ),
   );
